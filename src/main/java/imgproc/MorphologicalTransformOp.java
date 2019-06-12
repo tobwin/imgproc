@@ -8,6 +8,15 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
 public class MorphologicalTransformOp implements BufferedImageOp {
+
+    private StructuringElement strel;
+    private Imgproc morph;
+
+    public MorphologicalTransformOp(StructuringElement strel, Imgproc morph) {
+        this.strel = strel;
+        this.morph = morph;
+    }
+
     public BufferedImage filter(BufferedImage src, BufferedImage dest) {
         return null;
     }

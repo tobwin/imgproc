@@ -6,26 +6,15 @@ public class StructuringElement implements Cloneable{
     private int height;
     private boolean data[];
 
-    public final int getXOrigin() {
-        return (this.width-1)/2;
-    }
-
-    public final int getYOrigin() {
-        return (this.height-1)/2;
-    }
-
+    public final int getXOrigin() { return (this.width-1)/2; }
+    public final int getYOrigin() { return (this.height-1)/2; }
     public final int getWidth() {
         return this.width;
     }
-
     public final int getHeight() {
         return this.height;
     }
-
-    public final boolean[] getStructuringData(boolean[] data) {
-        data = this.data;
-        return data;
-    }
+    public final boolean[] getStructuringData() { return this.data; }
 
     public StructuringElement(int width, int height, boolean[] data) throws IllegalArgumentException {
         if(data.length != width * height) { throw new IllegalArgumentException(); }
