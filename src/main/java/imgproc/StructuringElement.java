@@ -14,10 +14,14 @@ public class StructuringElement implements Cloneable{
     public final int getHeight() {
         return this.height;
     }
+
     public final boolean[] getStructuringData() { return this.data; }
 
     public StructuringElement(int width, int height, boolean[] data) throws IllegalArgumentException {
         if(data.length != width * height) { throw new IllegalArgumentException(); }
+        this.data = data;
+        this.width = width;
+        this.height = height;
     }
 
     public StructuringElement(int width, int height, int[] data) throws IllegalArgumentException {

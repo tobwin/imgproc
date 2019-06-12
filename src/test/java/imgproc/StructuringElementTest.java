@@ -35,4 +35,16 @@ public class StructuringElementTest {
 
     }
 
+    @Test
+    public void testGetStructuringElement() {
+
+        StructuringElement se = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, 3, 3);
+        boolean[] expected = {false, true, false, true, true, true, false, true, false};
+        boolean[] data = se.getStructuringData();
+        for(int i = 0; i < 9; i++) {
+            Assert.assertEquals(expected[i], data[i]);
+        }
+
+    }
+
 }
