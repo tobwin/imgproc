@@ -32,7 +32,7 @@ public class MorphologicalTransformOpTest {
         }
 
         try {
-            ImageIO.write(img, "png", new File("./Image.jpg"));
+            ImageIO.write(img, "png", new File("./Image.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class MorphologicalTransformOpTest {
 
         BufferedImage src = null;
         try {
-            src = ImageIO.read(new File("./Image.jpg"));
+            src = ImageIO.read(new File("./Image.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class MorphologicalTransformOpTest {
         bio.filter(src, dest);
 
         try {
-            ImageIO.write(dest, "jpg", new File("./MORPH_CLOSE.jpg"));
+            ImageIO.write(dest, "png", new File("./MORPH_CLOSE.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }

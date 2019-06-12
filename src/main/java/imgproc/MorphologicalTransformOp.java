@@ -97,8 +97,8 @@ public class MorphologicalTransformOp implements BufferedImageOp {
                 int h = src.getHeight();
                 Raster raster = src.getRaster();
                 byte[] data = new byte[strel.getWidth()*strel.getHeight()];
-                for(int row = 0; row < h - strel.getHeight(); row++) {
-                    for(int col = 0; col < w - strel.getWidth(); col++) {
+                for(int row = 0; row < h - strel.getHeight() + 1; row++) {
+                    for(int col = 0; col < w - strel.getWidth() + 1; col++) {
                         raster.getDataElements(col, row, strel.getWidth(), strel.getHeight(), data);
                         dest.getRaster().setSample(col + strel.getXOrigin(), row + strel.getYOrigin(), 0, basicTransform(data, strel.getStructuringData())) ;
                     }
