@@ -13,7 +13,7 @@ import java.io.File;
 
 BufferedImage src = null;
 try {  
-    src = ImageIO.read(new File("./path/to/Image.jpg"));  
+    src = ImageIO.read(new File("./Image.jpg"));  
 } catch (IOException e) {  
     e.printStackTrace();  
 }
@@ -43,7 +43,7 @@ import imgproc.*;
 
 BufferedImage src = null; 
 try {  
-    src = ImageIO.read(new File("./path/to/Image.jpg"));  
+    src = ImageIO.read(new File("./Image.jpg"));  
 } catch (IOException e) {  
     e.printStackTrace();  
 }
