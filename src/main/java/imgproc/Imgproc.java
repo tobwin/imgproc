@@ -28,7 +28,7 @@ public enum Imgproc {
         int w = width / 2;
         int h = height / 2;
 
-        boolean[] structuringData = new boolean[width*height];
+        boolean[] data = new boolean[width*height];
 
         switch (shape) {
 
@@ -37,39 +37,28 @@ public enum Imgproc {
                 int i = 0;
                 for(int x = -w; x <= w; x++) {
                     for(int y = -h; y <= h; y++) {
-                        structuringData[i] = Math.pow(x,2)/Math.pow(w,2) + Math.pow(y,2)/Math.pow(h,2) <= 1;
+                        data[i] = Math.pow(x,2)/Math.pow(w,2) + Math.pow(y,2)/Math.pow(h,2) <= 1;
                         i++;
                     }
                 }
                 break;
 
             } case MORPH_RECT: {
-
-                int i = 0;
-                for(int x = -w; x <= w; x++) {
-                    for(int y = -h; y <= h; y++) {
-                        structuringData[i] = true;
-                        i++;
-                    }
+                for(int i = 0; i < data.length; i++) {
+                    data[i] = true;
                 }
                 break;
 
             } default: {
-
-                int i = 0;
-                for(int x = -w; x <= w; x++) {
-                    for(int y = -h; y <= h; y++) {
-                        structuringData[i] = false;
-                        i++;
-                    }
+                for(int i = 0; i < data.length; i++) {
+                    data[i] = false;
                 }
                 break;
-
             }
 
         }
 
-        return new StructuringElement(width, height, structuringData);
+        return new StructuringElement(width, height, data);
     }
 
 }

@@ -1,10 +1,10 @@
+The **MorphologicalTransformOp** class provided by this package is an implementation of the [BufferedImageOp](https://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImageOp.html) interface. It is intended to be a pure Java alternative to the corresponding class provided by OpenCV for Java and derives many of its syntactic features, defaults etc. from it.
 
+# Use
 
 ### BufferedImageOp
 
-MorphologicalTranformOp implements the BufferedImageOp interface, which is provided with the Java standard library together with a few implementations such as ConvolveOp, LookupOp and ColorConvertOp.
-
-The following example uses a ConvolveOp to blurr an image with a Gaussian kernel.
+The BufferedImageOp interface together with implementations such as ConvolveOp, LookupOp and ColorConvertOp comes with the Java standard library. The following example uses a ConvolveOp to blurr an image with a Gaussian kernel.
 
 ```Java
 import java.awt.image.*;  
@@ -32,7 +32,7 @@ bio.filter(src, dest);
 
 ### MorphologicalTransformOp
 
-This example uses a MorphologicalTransformOp to perform a closing operation.
+To perform a closing operation you would use MorphologicalTransformOp like this:
 
 ```Java
 import java.awt.image.*;  
@@ -60,11 +60,28 @@ BufferedImageOp bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH
 bio.filter(src, dest);
 ```
 
+## StructuringElement
 
-### StructuringElement
+####  Constructors
+Structuring elements can be thought of as binary kernels. The StructuringElement class therefore uses the same "interface" as the standard Kernel class. The data elements are in fact of boolean type and the main constructor accepts a corresponding array:
+```Java
+int width = 3, height = 3;
+int[] data = {true, true, true,
+			  true, true, true,
+			  true, true, true};
+StructuringElement se = new StructuringElement(width, height, data);
+```
+The main example just uses a more convenient overloading constructor. 
+####  getStructuringElement()
+Structuring elements can also be created using the Imgproc.getStructuringElement function:
+```Java
+int width = 5, height = 3;
+StructuringElement se;
 
+// Rectangular element
+se = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, width, height);
 
-
-
-
+// Elliptical element
+se = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, width, height);
+```
 
