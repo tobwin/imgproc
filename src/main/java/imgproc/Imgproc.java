@@ -1,5 +1,9 @@
 package imgproc;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
+
 public enum Imgproc {
 
     MORPH_ERODE (0),
@@ -11,10 +15,12 @@ public enum Imgproc {
     MORPH_CROSS (1),
     MORPH_ELLIPSE (2),
 
-    IPL_BORDER_CONSTANT (0),
-    IPL_BORDER_REPLICATE (1), // default in opencv (?)
-    IPL_BORDER_REFLECT (2),
-    PL_BORDER_WRAP (3);
+    BORDER_CONSTANT (0),
+    BORDER_REPLICATE (1),
+    BORDER_REFLECT (2), // ..cba/abcdefgh/hgf...
+    BORDER_WRAP (3),
+    BORDER_DEFAULT (4), BORDER_REFLECT101 (4), BORDER_REFLECT_101 (4), // ..cb/abcdefgh/gf...
+    BORDER_TRANSPARENT (5);
 
     private final int index;
 
@@ -35,8 +41,8 @@ public enum Imgproc {
             case MORPH_ELLIPSE: {
 
                 int i = 0;
-                for(int x = -w; x <= w; x++) {
-                    for(int y = -h; y <= h; y++) {
+                for(int y = -h; y <= h; y++) {
+                    for(int x = -w; x <= w; x++) {
                         data[i] = Math.pow(x,2)/Math.pow(w,2) + Math.pow(y,2)/Math.pow(h,2) <= 1;
                         i++;
                     }
@@ -60,5 +66,6 @@ public enum Imgproc {
 
         return new StructuringElement(width, height, data);
     }
+
 
 }

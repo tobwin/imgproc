@@ -1,4 +1,4 @@
-The **MorphologicalTransformOp** class provided by this package is an implementation of the [BufferedImageOp](https://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImageOp.html) interface. It is intended to be a pure Java alternative to the corresponding class provided by OpenCV for Java and derives many of its syntactic features, defaults etc. from it.
+The **MorphologicalTransformOp** class provided by this package is an implementation of the [BufferedImageOp](https://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImageOp.html) interface. It is intended to be a pure Java alternative to the corresponding class provided by OpenCV for Java and derives many of its syntactic features, defaults *etc.* from it.
 
 # Use
 
