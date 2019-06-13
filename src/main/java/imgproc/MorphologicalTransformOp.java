@@ -131,47 +131,35 @@ public class MorphologicalTransformOp implements BufferedImageOp {
         int w = orig.getWidth();
         int h = orig.getHeight();
 
-        // to be removed
+        // fill white
         for(int row = 0; row < ext.getHeight(); row++) {
             for(int col = 0; col < ext.getWidth(); col++) {
                 ext.getRaster().setSample(col, row, 0, 255);
             }
         }
 
+        // copy original part
         for(int row = 0; row < h; row++) {
             for(int col = 0; col < w; col++) {
                 ext.getRaster().setSample(col + strel.getXOrigin(), row + strel.getYOrigin(), 0, raster.getSample(col, row, 0) );
             }
         }
 
-        // left border
+        // left and right border
         for(int row = 0; row < h; row++) {
-            for(int col = 0; col < strel.getXOrigin(); col++) {
-                ext.getRaster().setSample(col, row + strel.getYOrigin(), 0, raster.getSample(strel.getXOrigin() - col, row, 0));
+            for(int x = 0; x < strel.getXOrigin(); x++) {
+                ext.getRaster().setSample(x, row + strel.getYOrigin(), 0, raster.getSample(strel.getXOrigin() - x, row, 0));
+                ext.getRaster().setSample(w + strel.getXOrigin() +  x, row + strel.getYOrigin(), 0, raster.getSample(w - x - 2, row, 0));
             }
         }
 
-        // right border
-        for(int row = 0; row < h; row++) {
-            for(int col = w - strel.getXOrigin(); col < w; col++) {
-                ext.getRaster().setSample(col + 2 * strel.getXOrigin(), row + strel.getYOrigin(), 0, raster.getSample(w + (strel.getXOrigin() - col + 1), row, 0));
-            }
-        }
-
-        // top border
+        // top and bottom border
         for(int col = 0; col < w; col++) {
-            for(int row = 0; row < strel.getYOrigin(); row++) {
-                ext.getRaster().setSample(col + strel.getXOrigin(), row, 0, raster.getSample(col, strel.getYOrigin() - row, 0));
+            for(int y = 0; y < strel.getYOrigin(); y++) {
+                ext.getRaster().setSample(col + strel.getXOrigin(), y, 0, raster.getSample(col, strel.getYOrigin() - y, 0));
+                ext.getRaster().setSample(col + strel.getXOrigin(), h + strel.getYOrigin() +  y, 0, raster.getSample(col, h - y - 2, 0));
             }
         }
-
-        // bottom border
-        for(int col = 0; col < w; col++) {
-            for(int row = h - strel.getYOrigin(); row < h; row++) {
-                ext.getRaster().setSample(col + strel.getXOrigin(), row + 2 * strel.getYOrigin(), 0, raster.getSample(col, h + (strel.getYOrigin() - row - 1), 0));
-            }
-        }
-
 
         return ext;
     }
