@@ -7,7 +7,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
-import java.nio.Buffer;
+
+// debugging
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class MorphologicalTransformOp implements BufferedImageOp {
 
@@ -94,25 +98,25 @@ public class MorphologicalTransformOp implements BufferedImageOp {
 
             } default: {
 
-                int w = src.getWidth();
-                int h = src.getHeight();
-
                 // extend border
-                BufferedImage $src = extendBorder(src, Imgproc.BORDER_DEFAULT);
+                BufferedImage $src = Imgproc.extendBorder(src, strel.getXOrigin(), strel.getYOrigin());
+                BufferedImage $dest = Imgproc.extendBorder(dest, strel.getXOrigin(), strel.getYOrigin());
 
-                Raster raster = src.getRaster();
+                int w = $src.getWidth();
+                int h = $src.getHeight();
+                Raster raster = $src.getRaster();
 
                 byte[] data = new byte[strel.getWidth()*strel.getHeight()];
 
                 for(int row = 0; row < h - strel.getHeight() + 1; row++) {
                     for(int col = 0; col < w - strel.getWidth() + 1; col++) {
-
                         raster.getDataElements(col, row, strel.getWidth(), strel.getHeight(), data);
-                        dest.getRaster().setSample(col + strel.getXOrigin(), row + strel.getYOrigin(), 0, basicTransform(data, strel.getStructuringData())) ;
-
+                        $dest.getRaster().setSample(col + strel.getXOrigin(), row + strel.getYOrigin(), 0, basicTransform(data, strel.getStructuringData())) ;
                     }
                 }
-
+                // trim border
+                dest = Imgproc.trimBorder($src, dest, strel.getXOrigin(), strel.getYOrigin());
+                
                 break;
             }
 
@@ -122,46 +126,6 @@ public class MorphologicalTransformOp implements BufferedImageOp {
 
     }
 
-    public BufferedImage extendBorder(BufferedImage orig, Imgproc BORDER) {
 
-        BufferedImage ext = new BufferedImage(orig.getWidth() + 2 * strel.getXOrigin(), orig.getHeight() + 2 * strel.getYOrigin(), BufferedImage.TYPE_BYTE_GRAY);
-
-        Raster raster = orig.getRaster();
-
-        int w = orig.getWidth();
-        int h = orig.getHeight();
-
-        // fill white
-        for(int row = 0; row < ext.getHeight(); row++) {
-            for(int col = 0; col < ext.getWidth(); col++) {
-                ext.getRaster().setSample(col, row, 0, 255);
-            }
-        }
-
-        // copy original part
-        for(int row = 0; row < h; row++) {
-            for(int col = 0; col < w; col++) {
-                ext.getRaster().setSample(col + strel.getXOrigin(), row + strel.getYOrigin(), 0, raster.getSample(col, row, 0) );
-            }
-        }
-
-        // left and right border
-        for(int row = 0; row < h; row++) {
-            for(int x = 0; x < strel.getXOrigin(); x++) {
-                ext.getRaster().setSample(x, row + strel.getYOrigin(), 0, raster.getSample(strel.getXOrigin() - x, row, 0));
-                ext.getRaster().setSample(w + strel.getXOrigin() +  x, row + strel.getYOrigin(), 0, raster.getSample(w - x - 2, row, 0));
-            }
-        }
-
-        // top and bottom border
-        for(int col = 0; col < w; col++) {
-            for(int y = 0; y < strel.getYOrigin(); y++) {
-                ext.getRaster().setSample(col + strel.getXOrigin(), y, 0, raster.getSample(col, strel.getYOrigin() - y, 0));
-                ext.getRaster().setSample(col + strel.getXOrigin(), h + strel.getYOrigin() +  y, 0, raster.getSample(col, h - y - 2, 0));
-            }
-        }
-
-        return ext;
-    }
 
 }

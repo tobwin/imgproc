@@ -2,6 +2,7 @@ package imgproc;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
 public enum Imgproc {
@@ -65,6 +66,71 @@ public enum Imgproc {
         }
 
         return new StructuringElement(width, height, data);
+    }
+
+    public static BufferedImage extendBorder(BufferedImage orig, int xOrigin, int yOrigin) {
+        return extendBorder(orig, xOrigin, yOrigin, BORDER_DEFAULT);
+    }
+
+    public static BufferedImage extendBorder(BufferedImage orig, int xOrigin, int yOrigin, Imgproc BORDER) {
+
+        // BORDER_DEFAULT = BORDER_REFLECT_101
+
+        BufferedImage ext = new BufferedImage(orig.getWidth() + 2 *xOrigin, orig.getHeight() + 2 * yOrigin, BufferedImage.TYPE_BYTE_GRAY);
+
+        Raster raster = orig.getRaster();
+
+        int w = orig.getWidth();
+        int h = orig.getHeight();
+
+//        // fill white
+//        for(int row = 0; row < ext.getHeight(); row++) {
+//            for(int col = 0; col < ext.getWidth(); col++) {
+//                ext.getRaster().setSample(col, row, 0, 255);
+//            }
+//        }
+
+        // copy original part
+        for(int row = 0; row < h; row++) {
+            for(int col = 0; col < w; col++) {
+                ext.getRaster().setSample(col + xOrigin, row + yOrigin, 0, raster.getSample(col, row, 0) );
+            }
+        }
+
+        // left and right border
+        for(int row = 0; row < h; row++) {
+            for(int x = 0; x < xOrigin; x++) {
+                ext.getRaster().setSample(x, row + yOrigin, 0, raster.getSample(xOrigin - x, row, 0));
+                ext.getRaster().setSample(w + xOrigin +  x, row + yOrigin, 0, raster.getSample(w - x - 2, row, 0));
+            }
+        }
+
+        // top and bottom border
+        for(int col = 0; col < w; col++) {
+            for(int y = 0; y < yOrigin; y++) {
+                ext.getRaster().setSample(col + xOrigin, y, 0, raster.getSample(col, yOrigin - y, 0));
+                ext.getRaster().setSample(col + xOrigin, h + yOrigin +  y, 0, raster.getSample(col, h - y - 2, 0));
+            }
+        }
+
+        return ext;
+    }
+
+
+    public static BufferedImage trimBorder(BufferedImage ext, BufferedImage trim, int xOrigin, int yOrigin) {
+
+        int w = ext.getWidth();
+        int h = ext.getHeight();
+
+        Raster raster = ext.getRaster();
+
+        for(int row = 0; row < h - 2 * yOrigin; row++) {
+            for(int col = 0; col < w - 2 * xOrigin; col++) {
+                trim.getRaster().setSample(col, row, 0, raster.getSample(col + yOrigin - 1, row + xOrigin - 1, 0) );
+            }
+        }
+
+        return trim;
     }
 
 

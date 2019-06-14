@@ -154,8 +154,7 @@ public class MorphologicalTransformOpTest {
         StructuringElement structElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, width, height);
         MorphologicalTransformOp op = new MorphologicalTransformOp(structElement , Imgproc.MORPH_ERODE);
 
-        img = op.extendBorder(img, Imgproc.BORDER_DEFAULT);
-
+        img = Imgproc.extendBorder(img, structElement.getXOrigin(), structElement.getYOrigin());
         try {
             ImageIO.write(img, "png", new File("./BorderTestExt.png"));
         } catch(IOException e) {
@@ -164,5 +163,9 @@ public class MorphologicalTransformOpTest {
 
     }
 
+    @Test
+    public void test() {
+
+    }
 
 }
