@@ -105,7 +105,7 @@ public class MorphologicalTransformOpTest {
 
         BufferedImage dest = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
 
-        int width = 5, height = 3;
+        int width = 15, height = 13;
         StructuringElement structElement = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, width, height);
 
         BufferedImageOp bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_ERODE);

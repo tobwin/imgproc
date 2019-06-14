@@ -83,12 +83,12 @@ public enum Imgproc {
         int w = orig.getWidth();
         int h = orig.getHeight();
 
-//        // fill white
-//        for(int row = 0; row < ext.getHeight(); row++) {
-//            for(int col = 0; col < ext.getWidth(); col++) {
-//                ext.getRaster().setSample(col, row, 0, 255);
-//            }
-//        }
+        // fill white
+        for(int row = 0; row < ext.getHeight(); row++) {
+            for(int col = 0; col < ext.getWidth(); col++) {
+                ext.getRaster().setSample(col, row, 0, 255);
+            }
+        }
 
         // copy original part
         for(int row = 0; row < h; row++) {
@@ -101,7 +101,7 @@ public enum Imgproc {
         for(int row = 0; row < h; row++) {
             for(int x = 0; x < xOrigin; x++) {
                 ext.getRaster().setSample(x, row + yOrigin, 0, raster.getSample(xOrigin - x, row, 0));
-                ext.getRaster().setSample(w + xOrigin +  x, row + yOrigin, 0, raster.getSample(w - x - 2, row, 0));
+                ext.getRaster().setSample(w + xOrigin +  x, row + yOrigin, 0, raster.getSample(w - x - (w % 2 == 0 ? 1 : 2), row, 0));
             }
         }
 
@@ -109,7 +109,7 @@ public enum Imgproc {
         for(int col = 0; col < w; col++) {
             for(int y = 0; y < yOrigin; y++) {
                 ext.getRaster().setSample(col + xOrigin, y, 0, raster.getSample(col, yOrigin - y, 0));
-                ext.getRaster().setSample(col + xOrigin, h + yOrigin +  y, 0, raster.getSample(col, h - y - 2, 0));
+                ext.getRaster().setSample(col + xOrigin, h + yOrigin +  y, 0, raster.getSample(col, h - y - (h % 2 == 0 ? 1 : 2), 0));
             }
         }
 
@@ -126,7 +126,7 @@ public enum Imgproc {
 
         for(int row = 0; row < h - 2 * yOrigin; row++) {
             for(int col = 0; col < w - 2 * xOrigin; col++) {
-                trim.getRaster().setSample(col, row, 0, raster.getSample(col + yOrigin - 1, row + xOrigin - 1, 0) );
+                trim.getRaster().setSample(col, row, 0, raster.getSample(col + yOrigin + 1, row + xOrigin - 1, 0) );
             }
         }
 
