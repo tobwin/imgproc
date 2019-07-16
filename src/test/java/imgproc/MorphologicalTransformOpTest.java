@@ -35,7 +35,7 @@ public class MorphologicalTransformOpTest {
     }
 
     @Test
-    public void testEllipse() {
+    public void testEllipseOdd() {
 
         BufferedImage dest = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
         BufferedImageOp bio;
@@ -47,7 +47,7 @@ public class MorphologicalTransformOpTest {
         bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_ERODE);
         bio.filter(src, dest);
         try {
-            target = ImageIO.read(new File("./src/test/resources/erode.png"));
+            target = ImageIO.read(new File("./src/test/resources/odd/erode.png"));
             Assert.assertTrue(compareImages(target, dest));
         } catch(IOException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class MorphologicalTransformOpTest {
         bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_DILATE);
         bio.filter(src, dest);
         try {
-            target = ImageIO.read(new File("./src/test/resources/dilate.png"));
+            target = ImageIO.read(new File("./src/test/resources/odd/dilate.png"));
             Assert.assertTrue(compareImages(target, dest));
         } catch(IOException e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class MorphologicalTransformOpTest {
         bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_OPEN);
         bio.filter(src, dest);
         try {
-            target = ImageIO.read(new File("./src/test/resources/open.png"));
+            target = ImageIO.read(new File("./src/test/resources/odd/open.png"));
             Assert.assertTrue(compareImages(target, dest));
         } catch(IOException e) {
             e.printStackTrace();
@@ -74,13 +74,64 @@ public class MorphologicalTransformOpTest {
         bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_CLOSE);
         bio.filter(src, dest);
         try {
-            target = ImageIO.read(new File("./src/test/resources/close.png"));
+            target = ImageIO.read(new File("./src/test/resources/odd/close.png"));
             Assert.assertTrue(compareImages(target, dest));
         } catch(IOException e) {
             e.printStackTrace();
         }
 
     }
+
+
+//    @Test
+//    public void testEllipseEven() {
+//
+//        BufferedImage dest = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+//        BufferedImageOp bio;
+//        BufferedImage target;
+//
+//        int width = 2, height = 4;
+//        StructuringElement structElement = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, width, height);
+//
+//        bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_ERODE);
+//        bio.filter(src, dest);
+//        try {
+//            target = ImageIO.read(new File("./src/test/resources/even/erode.png"));
+////            ImageIO.write(dest, "png", new File("./erode.png"));
+//            Assert.assertTrue(compareImages(target, dest));
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_DILATE);
+//        bio.filter(src, dest);
+//        try {
+//            target = ImageIO.read(new File("./src/test/resources/even/dilate.png"));
+////            ImageIO.write(dest, "png", new File("./dilate.png"));
+//            Assert.assertTrue(compareImages(target, dest));
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_OPEN);
+//        bio.filter(src, dest);
+//        try {
+//            target = ImageIO.read(new File("./src/test/resources/even/open.png"));
+//            Assert.assertTrue(compareImages(target, dest));
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        bio = new MorphologicalTransformOp(structElement , Imgproc.MORPH_CLOSE);
+//        bio.filter(src, dest);
+//        try {
+//            target = ImageIO.read(new File("./src/test/resources/even/close.png"));
+//            Assert.assertTrue(compareImages(target, dest));
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
 

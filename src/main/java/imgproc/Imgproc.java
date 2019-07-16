@@ -1,9 +1,11 @@
 package imgproc;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
+import java.io.File;
 
 public enum Imgproc {
 
@@ -32,18 +34,19 @@ public enum Imgproc {
 
     public static StructuringElement getStructuringElement(Imgproc shape, int width, int height) {
 
-        int w = width / 2;
-        int h = height / 2;
-
         boolean[] data = new boolean[width*height];
 
         switch (shape) {
 
             case MORPH_ELLIPSE: {
 
+                int w = width / 2;
+                int h = height / 2;
                 int i = 0;
                 for(int y = -h; y <= h; y++) {
+                    if(height % 2 == 0 && y == 0) { continue; }
                     for(int x = -w; x <= w; x++) {
+                        if(width % 2 == 0 && x == 0) { continue; }
                         data[i] = Math.pow(x,2)/Math.pow(w,2) + Math.pow(y,2)/Math.pow(h,2) <= 1;
                         i++;
                     }
@@ -117,9 +120,9 @@ public enum Imgproc {
 
         Raster raster = ext.getRaster();
 
-        for(int row = 0; row < h - 2 * yOrigin; row++) {
-            for(int col = 0; col < w - 2 * xOrigin; col++) {
-                trim.getRaster().setSample(col, row, 0, raster.getSample(col + yOrigin + 1, row + xOrigin - 1, 0) );
+        for (int row = 0; row < h - 2 * yOrigin; row++) {
+            for (int col = 0; col < w - 2 * xOrigin; col++) {
+                trim.getRaster().setSample(col, row, 0, raster.getSample(col + yOrigin + 1, row + xOrigin - 1, 0));
             }
         }
 
