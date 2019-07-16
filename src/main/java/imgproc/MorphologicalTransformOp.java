@@ -118,13 +118,6 @@ public class MorphologicalTransformOp implements BufferedImageOp {
                 // trim border
                 dest = Imgproc.trimBorder($dest, dest, strel.getXOrigin(), strel.getYOrigin());
 
-                try {
-                    ImageIO.write($dest, "png", new File("./TEST.png"));
-                } catch(IOException e) {
-                    e.printStackTrace();
-                }
-
-
                 break;
             }
 

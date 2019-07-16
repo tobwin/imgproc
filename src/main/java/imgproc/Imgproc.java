@@ -83,13 +83,6 @@ public enum Imgproc {
         int w = orig.getWidth();
         int h = orig.getHeight();
 
-        // fill white
-        for(int row = 0; row < ext.getHeight(); row++) {
-            for(int col = 0; col < ext.getWidth(); col++) {
-                ext.getRaster().setSample(col, row, 0, 255);
-            }
-        }
-
         // copy original part
         for(int row = 0; row < h; row++) {
             for(int col = 0; col < w; col++) {
